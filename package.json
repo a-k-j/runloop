@@ -1,0 +1,19 @@
+{
+  "name": "runloop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Offline-first PWA for tracking walk/jog interval workouts",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "dexie": "^4.4.7"
+  },
+  "devDependencies": {
+    "vite": "^6.4.6",
+    "vite-plugin-pwa": "^1.0.3"
+  }
+}
