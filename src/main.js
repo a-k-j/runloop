@@ -1,5 +1,3 @@
-import './styles.css'
-import { registerSW } from 'virtual:pwa-register'
 import {
   db,
   localDateKey,
@@ -19,16 +17,15 @@ import { PLANS, planRef } from './plan.js'
 import { WorkoutTimer } from './timer.js'
 import { icon } from './icons.js'
 
-// Auto-update: when a new build's service worker takes control, force a reload so
-// the open app never keeps running old code. Also check for updates proactively,
-// like the expense-tracker app does with reg.update().
-registerSW({
-  immediate: true,
-  onNeedReload() {
-    window.location.reload()
-  },
-  onRegisteredSW(_swUrl, registration) {
-    if (!registration) return
+// Offline + auto-refresh. The service worker is plain JS at the site root (like
+// expense-tracker), so GitHub Pages can serve this repo directly from main.
+// When a newer sw.js takes control it messages this page and we reload.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data?.type === 'NEW_VERSION') window.location.reload()
+  })
+
+  navigator.serviceWorker.register('./sw.js').then((registration) => {
     const checkForUpdates = () => registration.update().catch(() => {})
     checkForUpdates()
     setInterval(checkForUpdates, 5 * 60 * 1000)
@@ -36,11 +33,8 @@ registerSW({
       if (document.visibilityState === 'visible') checkForUpdates()
     })
     window.addEventListener('online', checkForUpdates)
-  },
-  onRegisterError(error) {
-    console.warn('Service worker registration failed', error)
-  }
-})
+  }).catch(() => {})
+}
 
 const app = document.getElementById('app')
 

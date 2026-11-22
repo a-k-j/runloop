@@ -1,4 +1,6 @@
-import Dexie from 'dexie'
+// Dexie is loaded as a UMD script in index.html (vendor/dexie.min.js), so this
+// static site needs no bundler or npm install.
+const Dexie = window.Dexie
 
 export const db = new Dexie('runloop-db')
 
