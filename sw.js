@@ -1,15 +1,15 @@
-/* sw.js — cache-first offline support with forced refresh on new code.
+/* sw.js: cache-first offline support with forced refresh on new code.
    Mirrors the expense-tracker approach: bump CACHE_VERSION whenever any
    cached file changes, and clients.claim() + a message reload open tabs. */
 
-const CACHE_VERSION = 'v3'
+const CACHE_VERSION = 'v5'
 const CACHE_NAME = `runloop-${CACHE_VERSION}`
 
 const STATIC_URLS = [
   './',
   './index.html',
   './manifest.json',
-  './favicon.svg',
+  './public/favicon.svg',
   './src/styles.css',
   './src/main.js',
   './src/db.js',
@@ -17,9 +17,9 @@ const STATIC_URLS = [
   './src/plan.js',
   './src/timer.js',
   './vendor/dexie.min.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png'
+  './public/icons/icon-192.png',
+  './public/icons/icon-512.png',
+  './public/icons/icon-maskable-512.png'
 ]
 
 // Install: pre-cache everything, then activate immediately (no waiting tab).

@@ -311,7 +311,7 @@ const timerHandlers = {
   onComplete: async (config) => {
     releaseWakeLock()
     signal('done')
-    document.title = 'RunLoop — Run/Walk Tracker'
+    document.title = 'RunLoop: Run/Walk Tracker'
     await addWorkout(formToWorkout(state.timerForm, 'timer'))
     state.workouts = await getAllWorkouts()
     state.timerDone = { config, duration: config.circuits * (config.workSec + config.restSec) + config.warmupSec + config.cooldownSec }
@@ -515,7 +515,7 @@ function logView() {
   return `
     ${installBanner()}
     <h1 class="page-heading">Log a workout</h1>
-    <p class="page-sub">Record what you actually did — the plan is a guide, not a rule.</p>
+    <p class="page-sub">Record what you actually did. The plan is a guide, not a rule.</p>
 
     ${
       state.editingId
@@ -705,7 +705,7 @@ function statsView() {
 
   return `
     <h1 class="page-heading">Stats</h1>
-    <p class="page-sub">Every log adds up — here's the big picture.</p>
+    <p class="page-sub">Every log adds up. Here's the big picture.</p>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-icon">${icon('check', 20)}</div><div class="stat-value">${workouts.length}</div><div class="stat-label">Workouts logged</div></div>
       <div class="stat-card"><div class="stat-icon">${icon('clock', 20)}</div><div class="stat-value">${formatDuration(totalSec)}</div><div class="stat-label">Total time out</div></div>
@@ -804,7 +804,7 @@ function planView() {
       })
       .join('')}
     <div class="setup-note">${icon('info', 18)}
-      <span>Goal: run continuously for 30 minutes. Your own circuits can be any length — this is just a reference.</span>
+      <span>Goal: run continuously for 30 minutes. Your own circuits can be any length. This is just a reference.</span>
     </div>
   `
 }
@@ -918,11 +918,11 @@ function updateTimerUI(snap) {
   document.getElementById('phase-text').textContent = snap.phase.label
   document.getElementById('timer-time').textContent = formatClock(snap.remaining)
   document.getElementById('timer-round').textContent =
-    snap.round > 0 ? `Round ${snap.round} of ${snap.rounds}` : `${snap.phase.label} — get ready`
+    snap.round > 0 ? `Round ${snap.round} of ${snap.rounds}` : `${snap.phase.label}, get ready`
   const next = state.timer?.queue[snap.index + 1]
   document.getElementById('timer-next').textContent = next
     ? `Next: ${next.label} · ${formatClock(next.sec)}`
-    : 'Final stretch — finish strong!'
+    : 'Final stretch. Finish strong!'
   document.getElementById('progress-fill').style.width = `${snap.sessionProgress * 100}%`
   document.getElementById('progress-elapsed').textContent = formatClock(snap.elapsedSec)
   document.getElementById('progress-total').textContent = formatClock(snap.totalSec)
@@ -930,7 +930,7 @@ function updateTimerUI(snap) {
   if (pauseBtn) {
     pauseBtn.innerHTML = snap.state === 'paused' ? `${icon('play', 18)} Resume` : `${icon('pause', 18)} Pause`
   }
-  document.title = `${formatClock(snap.remaining)} · ${snap.phase.label} — RunLoop`
+  document.title = `${formatClock(snap.remaining)} · ${snap.phase.label} | RunLoop`
 }
 
 /* ---------- events ---------- */
@@ -1190,9 +1190,9 @@ app.addEventListener('click', async (e) => {
       state.timerScreen = false
       state.timerDone = null
       state.timerSnapshot = null
-      document.title = 'RunLoop — Run/Walk Tracker'
+      document.title = 'RunLoop: Run/Walk Tracker'
       render()
-      toast('Workout ended — not saved')
+      toast('Workout ended. Not saved.')
       break
 
     case 'timer-back':
